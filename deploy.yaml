@@ -1,0 +1,32 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: devops-handson
+spec:
+  selector: 
+    matchLabels:
+      app: devops-handson
+  replicas: 3 
+  template: 
+    metadata:
+      labels:
+        app: devops-handson
+    spec:
+      containers:
+      - name: devops-handson
+        image: iad.ocir.io/orasejapan/devops-handson:${BUILDRUN_HASH}
+        ports:
+        - containerPort: 80 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: devops-handson
