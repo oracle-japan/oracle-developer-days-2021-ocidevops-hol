@@ -51,6 +51,18 @@ steps:
           echo "Failure successfully handled"
         timeoutInSeconds: 40
         runAs: root
+  - type: Command
+    name: "Trivy Image Scan"
+    timeoutInSeconds: 180
+    command: |
+      curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.21.0
+      trivy image handson_image
+    onFailure:
+      - type: Command
+        command: |
+          echo "Trivy Scan Error"
+        timeoutInSeconds: 40
+        runAs: root
 
 outputArtifacts:
   - name: handson_image
