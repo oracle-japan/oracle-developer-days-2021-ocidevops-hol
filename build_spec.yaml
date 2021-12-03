@@ -6,38 +6,8 @@ shell: bash
 env:  
   exportedVariables:
     - BUILDRUN_HASH               
-   
+
 steps:
-  - type: Command
-    name: "npm install"
-    command: |
-      npm install
-    onFailure:
-      - type: Command
-        command: |
-          echo "npm install"
-        timeoutInSeconds: 60
-        runAs: root
-  - type: Command
-    name: "npm test"
-    command: |
-      npm test
-    onFailure:
-      - type: Command
-        command: |
-          echo "npm test App.test.js  "
-        timeoutInSeconds: 60
-        runAs: root
-  - type: Command
-    name: "Docker Build"
-    command: |
-      docker build -t handson_image .
-    onFailure:
-      - type: Command
-        command: |
-          echo "Failured docker build"
-        timeoutInSeconds: 60
-        runAs: root
   - type: Command
     name: "Export variables"
     timeoutInSeconds: 40
@@ -50,6 +20,16 @@ steps:
           echo "Handling Failure"
           echo "Failure successfully handled"
         timeoutInSeconds: 40
+        runAs: root
+  - type: Command
+    name: "Docker Build"
+    command: |
+      docker build -t handson_image .
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failured docker build"
+        timeoutInSeconds: 60
         runAs: root
   - type: Command
     name: "Trivy Image Scan"
