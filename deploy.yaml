@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: devops-handson
-        image: lhr.ocir.io/orasejapan/devops-handson:${BUILDRUN_HASH}
+        image: iad.ocir.io/<your-object-storage-namespace>/devops-handson:${BUILDRUN_HASH}
         ports:
         - containerPort: 80
 ---
